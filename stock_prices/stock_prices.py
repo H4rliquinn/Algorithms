@@ -3,6 +3,19 @@ import random
 import argparse
 
 
+def last_index(arr, el):
+    indexPosList = []
+    indexPos = 0
+    while True:
+        try:
+            indexPos = arr.index(el, indexPos)
+            indexPosList.append(indexPos)
+            indexPos += 1
+        except ValueError as e:
+            break
+    return indexPosList[-1]
+
+
 def find_max_profit(prices):
     sorted_prices = prices.copy()
     sorted_prices.sort()
@@ -10,21 +23,18 @@ def find_max_profit(prices):
     high = len(prices)-1
     last_change = None
     while True:
-        # print(low, high, last_change)
-        if prices.index(sorted_prices[low]) < prices.index(sorted_prices[high]):
-            # print(prices.index(sorted_prices[low]))
+        print("start", low, high, last_change)
+        if prices.index(sorted_prices[low]) < last_index(prices, sorted_prices[high]):
             break
         if last_change == 'h':
-            x = 0
-            y = low-2
-            z = 1
+            for i in range(0, low):
+                print("high", low, i, high)
+                if prices.index(sorted_prices[i]) < last_index(prices, sorted_prices[high]):
+                    break
         elif last_change == 'l':
-            x = len(prices)-1
-            y = high+2
-            z = -1
-        if last_change != None:
-            for i in range(x, y, z):
-                if prices.index(sorted_prices[low]) < prices.index(sorted_prices[high]):
+            for i in range(len(prices)-1, high, -1):
+                print("low", low, i, high)
+                if prices.index(sorted_prices[low]) < last_index(prices, sorted_prices[high]):
                     break
         if sorted_prices[low+1]-sorted_prices[low] >= sorted_prices[high]-sorted_prices[high-1]:
             high -= 1
