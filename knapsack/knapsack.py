@@ -12,25 +12,32 @@ def ratio_sort(i):
 
 def knapsack_solver(items, capacity):
     chosen_items = []
+    missed_list = []
     value_list = items.copy()
     value_list.sort(key=ratio_sort, reverse=True)
     value = 0
-    # print("Value List", value_list)
 
     for i in range(len(value_list)):
         if value_list[i].size <= capacity:
             chosen_items.append(value_list[i].index)
             capacity = capacity-value_list[i].size
             value += value_list[i].value
-            # print("Jones", chosen_items, value, capacity)
+        else:
+            missed_list.append(value_list[i])
         if capacity == 0:
             break
-    # for x in value_list:
-    #     if x.index in chosen_items:
-    #         print(f'***{x}***')
-    #     else:
-    #         print(x)
-    # print("TOT", capacity, value, sorted(chosen_items))
+    for missed in missed_list:
+        for previous in range(len(chosen_items)-2, 0, -1):
+            if items[chosen_items[-1]-1].size+capacity+items[chosen_items[previous]-1].size >= missed.size:
+                if items[chosen_items[-1]-1].value+items[chosen_items[previous]-1].value < missed.value:
+                    print("SUCCESS!", missed.value,
+                          items[chosen_items[-1]-1].value, items[chosen_items[previous]-1].value)
+                    value += missed.value - \
+                        (items[chosen_items[-1]-1].value +
+                         items[chosen_items[previous]-1].value)
+                    chosen_items.pop(previous)
+                    chosen_items.pop()
+                    chosen_items.append(missed.index)
     return {'Value': value, 'Chosen': sorted(chosen_items)}
 
 
