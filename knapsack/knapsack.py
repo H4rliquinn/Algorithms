@@ -30,8 +30,6 @@ def knapsack_solver(items, capacity):
         for previous in range(len(chosen_items)-2, 0, -1):
             if items[chosen_items[-1]-1].size+capacity+items[chosen_items[previous]-1].size >= missed.size:
                 if items[chosen_items[-1]-1].value+items[chosen_items[previous]-1].value < missed.value:
-                    print("SUCCESS!", missed.value,
-                          items[chosen_items[-1]-1].value, items[chosen_items[previous]-1].value)
                     value += missed.value - \
                         (items[chosen_items[-1]-1].value +
                          items[chosen_items[previous]-1].value)
