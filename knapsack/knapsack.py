@@ -15,16 +15,22 @@ def knapsack_solver(items, capacity):
     value_list = items.copy()
     value_list.sort(key=ratio_sort, reverse=True)
     value = 0
-    # print(value_list)
+    # print("Value List", value_list)
 
     for i in range(len(value_list)):
-        if value_list[i].size < capacity:
+        if value_list[i].size <= capacity:
             chosen_items.append(value_list[i].index)
             capacity = capacity-value_list[i].size
             value += value_list[i].value
-            print("Jones", chosen_items, value, capacity)
+            # print("Jones", chosen_items, value, capacity)
         if capacity == 0:
             break
+    # for x in value_list:
+    #     if x.index in chosen_items:
+    #         print(f'***{x}***')
+    #     else:
+    #         print(x)
+    # print("TOT", capacity, value, sorted(chosen_items))
     return {'Value': value, 'Chosen': sorted(chosen_items)}
 
 
